@@ -82,6 +82,7 @@ else:
     print("so viele Spalten gibt es heute nicht")
     
 
+
     
 
 def Ausgabe(zeile, spalte):
