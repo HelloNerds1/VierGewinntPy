@@ -38,7 +38,7 @@ def Spielbrett(zeile, spalte):
 def Ausgabe(row_num, col_num):
     """ In dieser Funktion wird das Spielbrett für die Konsole formatiert ausgegeben. 
     Dazu wird die Spielbrett Matrix durchgegenagen, wobei für jeden Eintrag ein leeres Feld eingefügt wird. """
-    print("0     1     2     3")    # av
+    print("0     1     2     3     4     5     6")    # av
     for i in range(row_num):
         for j in range(col_num):
             print(spielbrett[i][j], end="  |  ")   # end bedeutet am Ende jedes Eintrages
@@ -55,6 +55,9 @@ def Abfrage(zeile, spieler):
             global col1
             global col2
             global col3
+            global col4
+            global col5
+            global col6
             counter = counter +1
             
             """ Gedächtinis über die Züge: """
@@ -71,6 +74,15 @@ def Abfrage(zeile, spieler):
                 if value == 3:
                     spielbrett[col3][value] = spieler
                     col3 = col3 +1         
+                if value == 4:
+                    spielbrett[col4][value] = spieler
+                    col4 = col4 +1    
+                if value == 5:
+                    spielbrett[col5][value] = spieler
+                    col5 = col5 +1    
+                if value == 6:
+                    spielbrett[col6][value] = spieler
+                    col6 = col6 +1      
  
         except:
             continue # versuche es erneut, gehe zum Anfang der Schleife
@@ -119,8 +131,8 @@ def checkWin():
 
 """ Settings für Matrix etc. """
 spielbrett = []
-row_num = 4
-col_num = 4
+row_num = 8
+col_num = 7
 win = False
 
 counter = 0
@@ -128,6 +140,9 @@ col0 = 0
 col1 = 0
 col2 = 0
 col3 = 0
+col4 = 0
+col5 = 0
+col6 = 0
 
 """ Funktionen aufrufen """
 board = Spielbrett(row_num, col_num)   #ab hier ist Spielbrett befüllt
@@ -138,8 +153,9 @@ player2 = Spieler("o")
 
 
 """ Spielschleife """
-ausgeben = Ausgabe(row_num, col_num) 
+
 while win != True:
+    ausgeben = Ausgabe(row_num, col_num) 
     if (counter % 2) == 0:
         abfrage = Abfrage(row_num, player1.icon)
         ausgeben = Ausgabe(row_num, col_num) 
