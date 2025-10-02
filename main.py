@@ -47,7 +47,7 @@ def Ausgabe(row_num, col_num):
 
 def Abfrage(zeile, spieler):
     """ beschreiben """
-    while True:
+    while True:             # SR
         try:
             value = int(input('Spalte eingeben: ')) # Benutzereingabe in Ganzzahl
             global counter 
@@ -71,12 +71,40 @@ def Abfrage(zeile, spieler):
                 if value == 3:
                     spielbrett[col3][value] = spieler
                     col3 = col3 +1         
-            
-                
  
         except:
             continue # versuche es erneut, gehe zum Anfang der Schleife
         break # verlässt die while-Schleife, Wert definitiv eine Ganzzahl
+    
+    
+    
+
+
+def checkWin():
+    
+    """ horizontal """
+    for col in range(col_num-3):        # -3 aufgrund der range   SR
+        for row in range(row_num):
+            if(spielbrett[row][col] == spielbrett[row][col+1] == spielbrett[row][col+2] == spielbrett[row][col+3] != " "):
+                print("Gewonnen")
+    
+    """ vertikal """
+    for col in range(col_num):        
+        for row in range(row_num -3):
+            if(spielbrett[row][col] == spielbrett[row+1][col] == spielbrett[row+2][col] == spielbrett[row+3][col] != " "):
+                print("Gewonnen")
+ 
+    """ diagonal hochzu """
+    for col in range(col_num):       
+        for row in range(row_num -3):
+            if(spielbrett[row][col] == spielbrett[row+1][col+1] == spielbrett[row+2][col+2] == spielbrett[row+3][col+3] != " "):
+                print("Gewonnen")  
+                
+    """ diagonal herunter """
+    for col in range(col_num):        # SR
+        for row in range(row_num -3):
+            if(spielbrett[row][col] == spielbrett[row+1][col-1] == spielbrett[row+2][col-2] == spielbrett[row+3][col]-3 != " "):
+                print("Gewonnen") 
     
 
         
@@ -105,12 +133,13 @@ player2 = Spieler("o")
 0
 """ Spielschleife """
 ausgeben = Ausgabe(row_num, col_num) 
-while counter < 4:
+while counter < 8:
     if (counter % 2) == 0:
         abfrage = Abfrage(row_num, player1.icon)
         ausgeben = Ausgabe(row_num, col_num) 
+        win = checkWin()
     elif (counter % 2) == 1:
-        print("ich bin ungerade")
+        print("I am odd")
         abfrage = Abfrage(row_num, player2.icon)
         ausgeben = Ausgabe(row_num, col_num) 
 
