@@ -41,7 +41,7 @@ def Ausgabe(row_num, col_num):
     print("0     1     2     3     4     5     6")    # av
     for i in range(row_num):
         for j in range(col_num):
-            print(spielbrett[i][j], end="  |  ")   # end bedeutet am Ende jedes Eintrages
+            print(spielbrett[row_num-i-1][j], end="  |  ")   # end bedeutet am Ende jedes Eintrages
         print()     # printe nach jedem vollendeten j sozusagen einen Zeilenumbruch
 
 
@@ -65,34 +65,40 @@ def Abfrage(zeile, spieler):
                 if value == 0:
                     spielbrett[col0][value] = spieler   # hier wird das gewünschte Spieler-Symbol genutzt
                     col0 = col0 +1
+                    break
                 if value == 1:
                     spielbrett[col1][value] = spieler
                     col1 = col1 +1
+                    break
                 if value == 2:
                     spielbrett[col2][value] = spieler
-                    col2 = col2 +1            
+                    col2 = col2 +1
+                    break         
                 if value == 3:
                     spielbrett[col3][value] = spieler
-                    col3 = col3 +1         
+                    col3 = col3 +1      
+                    break   
                 if value == 4:
                     spielbrett[col4][value] = spieler
                     col4 = col4 +1    
+                    break
                 if value == 5:
                     spielbrett[col5][value] = spieler
                     col5 = col5 +1    
+                    break
                 if value == 6:
                     spielbrett[col6][value] = spieler
-                    col6 = col6 +1      
+                    col6 = col6 +1    
+                    break  
  
         except:
             continue # versuche es erneut, gehe zum Anfang der Schleife
-        break # verlässt die while-Schleife, Wert definitiv eine Ganzzahl
     
     
     
 
 
-def checkWin():
+def checkWin() -> bool:
     
     global win 
     """ horizontal """
@@ -100,28 +106,29 @@ def checkWin():
         for row in range(row_num):
             if(spielbrett[row][col] == spielbrett[row][col+1] == spielbrett[row][col+2] == spielbrett[row][col+3] != " "):
                 print("Gewonnen")
-                win = True
+                return True
     
     """ vertikal """
     for col in range(col_num -3):        
         for row in range(row_num -3):
             if(spielbrett[row][col] == spielbrett[row+1][col] == spielbrett[row+2][col] == spielbrett[row+3][col] != " "):
                 print("Gewonnen")
-                win = True
+                return True
  
     """ diagonal hochzu """
     for col in range(col_num -3):       
         for row in range(row_num -3):
             if(spielbrett[row][col] == spielbrett[row+1][col+1] == spielbrett[row+2][col+2] == spielbrett[row+3][col+3] != " "):
                 print("Gewonnen")  
-                win = True
+                return True
                 
     """ diagonal herunter """
     for col in range(col_num):        # SR
         for row in range(row_num -3):
             if(spielbrett[row][col] == spielbrett[row+1][col-1] == spielbrett[row+2][col-2] == spielbrett[row+3][col-3] != " "):
                 print("Gewonnen") 
-                win = True
+                return True
+    return False
     
 
         
