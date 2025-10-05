@@ -14,6 +14,34 @@ class VierGewinnt():
         self.col6 = 0
         self.board = []
         self.Spielbrett()
+        self.icons = {"x", "o"} #set
+    
+    @classmethod #SR
+    def FromBoard(cls, board: list[list[str]]):
+        row_num = len(board)
+        col_num = len(board[0])
+        vier_gewinnt = VierGewinnt(row_num, col_num)
+        for i in range(row_num):
+            for j in range(col_num):
+                vier_gewinnt.board[i][j] = board[i][j]
+                if board[i][j] != " ":
+                    if j == 0:
+                        vier_gewinnt.col0 = i+1
+                    if j == 1:
+                        vier_gewinnt.col1 = i+1
+                    if j == 2:
+                        vier_gewinnt.col2 = i+1
+                    if j == 3:
+                        vier_gewinnt.col3 = i+1
+                    if j == 4:
+                        vier_gewinnt.col4 = i+1
+                    if j == 5:
+                        vier_gewinnt.col5 = i+1
+                    if j == 6:
+                        vier_gewinnt.col6 = i+1
+                    
+        return vier_gewinnt
+        
     
     def Spielbrett(self):
         """ Diese Funktion erstellt das Spielbrett. Hierbei werden mehrere Listen in eine Liste 
@@ -96,27 +124,23 @@ class VierGewinnt():
         for col in range(self.col_num-3):        # -3 aufgrund der range
             for row in range(self.row_num):
                 if(self.board[row][col] == self.board[row][col+1] == self.board[row][col+2] == self.board[row][col+3] != " "):
-                    print("Gewonnen")
                     return True
 
         """ vertikal """
         for col in range(self.col_num -3):        
             for row in range(self.row_num -3):
                 if(self.board[row][col] == self.board[row+1][col] == self.board[row+2][col] == self.board[row+3][col] != " "):
-                    print("Gewonnen")
                     return True
     
         """ diagonal hochzu """
         for col in range(self.col_num -3):       
             for row in range(self.row_num -3):
                 if(self.board[row][col] == self.board[row+1][col+1] == self.board[row+2][col+2] == self.board[row+3][col+3] != " "):
-                    print("Gewonnen")  
                     return True
 
         """ diagonal herunter """
         for col in range(self.col_num):        # SR
             for row in range(self.row_num -3):
                 if(self.board[row][col] == self.board[row+1][col-1] == self.board[row+2][col-2] == self.board[row+3][col-3] != " "):
-                    print("Gewonnen") 
                     return True
         return False

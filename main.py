@@ -58,6 +58,7 @@ if __name__ == "__main__":      # SR
             vier_gewinnt.Ausgabe() 
             win = vier_gewinnt.CheckWin()    
         counter = counter + 1
+    print("GEWONNEN")
 
 
     """Testbereich"""
