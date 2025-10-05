@@ -1,8 +1,15 @@
+from abc import ABC, abstractmethod
 import random
 #from VierGewinntPy.player import *
 
+class PlayerInterface(ABC): # AbstractBaseClass
+    @abstractmethod
+    def GetTurn(self, board):
+        pass    
+        # mehr macht es nicht
 
-class Player:
+
+class Player(PlayerInterface):
     
     def __init__(self, icon: str):
         self.icon = icon 
@@ -10,21 +17,28 @@ class Player:
     def PlayerMessage(self):
         """ Zeig den Spieler im Terminal an, der den nächsten Zug angibt """
         print(f'Spieler {self.icon} ist dran')
-
+        
+    def GetTurn(self, board):
+        """ beschreiben """
+        while True:             # SR
+            self.PlayerMessage()        # SR
+            try:
+                return int(input('Spalte eingeben: ')) # Benutzereingabe in Ganzzahl
+            except ValueError:
+                continue # versuche es erneut, gehe zum Anfang der Schleife
 
 
 class AutoPlayer(Player):           # ergibt automatisch alles?
     
-    def __init__(self, board, row_num, icon: str):
-        self.board = board
-        self.row_num = row_num
+    def __init__(self, icon: str, col_num):
         super().__init__(icon)
+        self.col_num = col_num
     
-    def GetTurn(self):
+    def GetTurn(self, board):
         """ beschreiben """
-        random_move = random.randint(0, self.row_num)
-        #board[][random_move]
-        
+        random_move = random.randint(0, self.col_num)
+        return random_move
+
 
 
 class VierGewinnt():
@@ -35,7 +49,6 @@ class VierGewinnt():
         self.row_num = row_num
         self.col_num = col_num
         # alles was nicht mit übergeben wird:
-        self.counter = 0
         self.col0 = 0
         self.col1 = 0
         self.col2 = 0
@@ -43,6 +56,8 @@ class VierGewinnt():
         self.col4 = 0
         self.col5 = 0
         self.col6 = 0
+        self.value = None
+        self.Spielbrett()
     
     def Spielbrett(self):
         """ Diese Funktion erstellt das Spielbrett. Hierbei werden mehrere Listen in eine Liste 
@@ -61,46 +76,59 @@ class VierGewinnt():
             for j in range(self.col_num):
                 print(self.board[self.row_num-i-1][j], end="  |  ")   # end bedeutet am Ende jedes Eintrages
             print()     # printe nach jedem vollendeten j sozusagen einen Zeilenumbruch
-
-    def Abfrage(self, spieler):
-        """ beschreiben """
-        while True:             # SR
-            try:
-                value = int(input('Spalte eingeben: ')) # Benutzereingabe in Ganzzahl
-                global counter 
-                counter = counter +1
-
-                if value < self.row_num:   # Hier wird gegengespüft, ob die eingegebene Zahl auch innerhalb des Spielfeldes liegt
-                    if value == 0:
-                        self.board[self.col0][value] = spieler   # hier wird das gewünschte Spieler-Symbol genutzt
-                        self.col0 = self.col0 +1
-                        break
-                    if value == 1:
-                        self.board[self.col1][value] = spieler
-                        self.col1 = self.col1 +1
-                        break
-                    if value == 2:
-                        self.board[self.col2][value] = spieler
-                        self.col2 = self.col2 +1
-                        break         
-                    if value == 3:
-                        self.board[self.col3][value] = spieler
-                        self.col3 = self.col3 +1      
-                        break   
-                    if value == 4:
-                        self.board[self.col4][value] = spieler
-                        self.col4 = self.col4 +1    
-                        break
-                    if value == 5:
-                        self.board[self.col5][value] = spieler
-                        self.col5 = self.col5 +1    
-                        break
-                    if value == 6:
-                        self.board[self.col6][value] = spieler
-                        self.col6 = self.col6 +1    
-                        break           
-            except:
-                continue # versuche es erneut, gehe zum Anfang der Schleife
+            
+            
+    def SetMove(self, icon, value):
+        if value < self.col_num:   # Hier wird gegengespüft, ob die eingegebene Zahl auch innerhalb des Spielfeldes liegt
+            if value == 0:
+                if self.col0 >= self.row_num:
+                    return False
+                self.board[self.col0][value] = icon   # hier wird das gewünschte Spieler-Symbol genutzt
+                self.col0 = self.col0 +1  
+                return True 
+                
+            if value == 1:
+                if self.col1 >= self.row_num:
+                    return False
+                self.board[self.col1][value] = icon
+                self.col1 = self.col1 +1 
+                return True 
+                 
+            if value == 2:
+                if self.col2 >= self.row_num:
+                    return False
+                self.board[self.col2][value] = icon
+                self.col2 = self.col2 +1   
+                return True 
+                     
+            if value == 3:
+                if self.col3 >= self.row_num:
+                    return False
+                self.board[self.col3][value] = icon
+                self.col3 = self.col3 +1   
+                return True 
+                       
+            if value == 4:
+                if self.col4 >= self.row_num:
+                    return False
+                self.board[self.col4][value] = icon
+                self.col4 = self.col4 +1  
+                return True 
+                  
+            if value == 5:
+                if self.col5 >= self.row_num:
+                    return False
+                self.board[self.col5][value] = icon
+                self.col5 = self.col5 +1  
+                return True  
+                
+            if value == 6:
+                if self.col6 >= self.row_num:
+                    return False
+                self.board[self.col6][value] = icon
+                self.col6 = self.col6 +1  
+                return True   
+        return False                
              
 
     def CheckWin(self) -> bool:
@@ -139,75 +167,69 @@ class VierGewinnt():
     
 
         
-        
-# int main()
-# {
+if __name__ == "__main__":      # SR
+    # int main()
+    # {
 
-""" Settings """
-board = []
-counter = 0
-row_num = 8
-col_num = 7
-win = False
+    """ Settings """
+    board = []
+    counter = 0
+    row_num = 8
+    col_num = 7
+    win = False
+    END = 42     # bessere Lesbarkeit
 
-
-
-""" Instanzen """
-vier_gewinnt = VierGewinnt(board, row_num, col_num)
-player1 = Player("x")
-player2 = Player("o")
-
-
-""" Spielschleife """
-board = vier_gewinnt.Spielbrett()        # Erstellt die Matrix die als Spielbrett genutzt wird
-ausgeben = vier_gewinnt.Ausgabe() 
-
-END = 42     # bessere Lesbarkeit
-while True:
-    try:
-        modi = int(input('Spieleranzahl eingeben: '))
+    """ Auswahl des Modus"""
+    modi = None
+    while modi == None:
+        try:
+            modi = int(input('Spieleranzahl eingeben: '))
+        except ValueError:      # SR
+            continue
         if modi == 1:
             print("Einspielermodus")
-            while win != True:
-                if (counter % 2) == 0:
-                    player1.PlayerMessage()
-                    abfrage = vier_gewinnt.Abfrage(player1.icon)
-                    ausgeben = vier_gewinnt.Ausgabe() 
-                    win = vier_gewinnt.CheckWin()
-                elif (counter % 2) == 1:
-                    player2.PlayerMessage()
-                    abfrage = vier_gewinnt.Abfrage(player2.icon)
-                    ausgeben = vier_gewinnt.Ausgabe() 
-                    win = vier_gewinnt.CheckWin()    
-            break   
-        
-        if modi == 2:
+        elif modi == 2:
             print("Zweispielermodus")
-            while win != True:
-                if (counter % 2) == 0:
-                    player1.PlayerMessage()
-                    abfrage = vier_gewinnt.Abfrage(player1.icon)
-                    ausgeben = vier_gewinnt.Ausgabe() 
-                    win = vier_gewinnt.CheckWin()
-                elif (counter % 2) == 1:
-                    player2.PlayerMessage()
-                    ausgeben = vier_gewinnt.Ausgabe() 
-                    win = vier_gewinnt.CheckWin()   
-            break
-        
-        if modi == END:
-            print("Spiel beendet")
-            break
-    except:
-        continue
+        else:
+            modi = None
+
+            
+
+    """ Instanzen """
+    vier_gewinnt = VierGewinnt(board, row_num, col_num)
+    player1 = Player("x")
+    player2 = Player("o")
+    if modi == 1:
+        player2 = AutoPlayer("o", col_num)
 
 
-"""Testbereich"""
+    """ Spielschleife """
+    ausgeben = vier_gewinnt.Ausgabe() 
+
+    while win != True:
+        if (counter % 2) == 0:
+            is_valid = False
+            while not is_valid:
+                value = player1.GetTurn(vier_gewinnt.board)
+                is_valid = vier_gewinnt.SetMove(player1.icon, value)
+            vier_gewinnt.Ausgabe() 
+            win = vier_gewinnt.CheckWin()
+            
+        elif (counter % 2) == 1:
+            is_valid = False
+            while not is_valid:
+                value = player2.GetTurn(vier_gewinnt.board)
+                is_valid = vier_gewinnt.SetMove(player2.icon, value)
+            vier_gewinnt.Ausgabe() 
+            win = vier_gewinnt.CheckWin()    
+        counter = counter + 1
 
 
-# return 0; 
-# }
+    """Testbereich"""
 
-# :)
+    # return 0; 
+    # }
+
+    # :)
 
 
