@@ -1,22 +1,22 @@
-
-
+from VierGewinntPy.player import *
 
 class Spieler:
     
     def __init__(self, icon = str):
         self.icon = icon 
-        
-    def GetTurn(self, Field):
-        # Feld printen
-        value = int(input('Spalte eingeben: '))
-        return value
+   
+    def PlayerMessage(self):
+        print(f'Spieler {self.icon} ist dran')
 
 
 
 class AutoSpieler:
     
-    def __init__(self):
-        pass
+    def __init__(self, icon = str):
+        self.icon = icon 
+   
+    def PlayerMessage(self):
+        print(f'Spieler {self.icon} ist dran')
     
     def GetTurn(self, Field):
         # wo denkt der Computer, dass es hingehört?
@@ -100,7 +100,7 @@ class VierGewinnt():
                 continue # versuche es erneut, gehe zum Anfang der Schleife
              
 
-    def checkWin(self) -> bool:
+    def CheckWin(self) -> bool:
         """ beschreiben """
         global win 
         """ horizontal """
@@ -165,13 +165,15 @@ ausgeben = vier_gewinnt.Ausgabe()
 
 while win != True:
     if (counter % 2) == 0:
+        player1.PlayerMessage()
         abfrage = vier_gewinnt.Abfrage(player1.icon)
         ausgeben = vier_gewinnt.Ausgabe() 
-        win = vier_gewinnt.checkWin()
+        win = vier_gewinnt.CheckWin()
     elif (counter % 2) == 1:
+        player2.PlayerMessage()
         abfrage = vier_gewinnt.Abfrage(player2.icon)
         ausgeben = vier_gewinnt.Ausgabe() 
-        win = vier_gewinnt.checkWin()
+        win = vier_gewinnt.CheckWin()
 
 """Testbereich"""
 
