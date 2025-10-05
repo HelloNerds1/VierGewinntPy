@@ -1,4 +1,4 @@
-from VierGewinntPy.player import *
+#from VierGewinntPy.player import *
 
 class Spieler:
     
@@ -26,11 +26,21 @@ class AutoSpieler:
 
 class VierGewinnt():
     
-    def __init__(self, spielbrett, row_num, col_num, win = False):
-        self.spielbrett = spielbrett
+    def __init__(self, row_num, col_num, win = False):
+        """ beschreiben """
         self.row_num = row_num
         self.col_num = col_num
         self.win = win 
+        # alles was nicht mit übergeben wird:
+        self.spielbrett = []
+        self.counter = 0
+        self.col0 = 0
+        self.col1 = 0
+        self.col2 = 0
+        self.col3 = 0
+        self.col4 = 0
+        self.col5 = 0
+        self.col6 = 0
     
     def Spielbrett(self):
         """ Diese Funktion erstellt das Spielbrett. Hierbei werden mehrere Listen in eine Liste 
@@ -39,7 +49,7 @@ class VierGewinnt():
             zeile = []
             for n in range(self.col_num):
                 zeile.append(" ")             # Spielbrett mit leeren Einträgen füllen      # av, vllt. Leerzeichen in ASCII?
-            spielbrett.append(zeile)
+            self.spielbrett.append(zeile)
 
     def Ausgabe(self):
         """ In dieser Funktion wird das Spielbrett für die Konsole formatiert ausgegeben. 
@@ -47,7 +57,7 @@ class VierGewinnt():
         print("0     1     2     3     4     5     6")    # av
         for i in range(self.row_num):
             for j in range(self.col_num):
-                print(spielbrett[self.row_num-i-1][j], end="  |  ")   # end bedeutet am Ende jedes Eintrages
+                print(self.spielbrett[self.row_num-i-1][j], end="  |  ")   # end bedeutet am Ende jedes Eintrages
             print()     # printe nach jedem vollendeten j sozusagen einen Zeilenumbruch
 
     def Abfrage(self, spieler):
@@ -56,44 +66,44 @@ class VierGewinnt():
             try:
                 value = int(input('Spalte eingeben: ')) # Benutzereingabe in Ganzzahl
                 global counter 
-                global col0
-                global col1
-                global col2
-                global col3
-                global col4
-                global col5
-                global col6
+                #col0
+                #col1
+                #col2
+                #col3
+                #col4
+                #col5
+                #col6
                 counter = counter +1
 
                 """ Gedächtinis über die Züge: """
                 if value < self.row_num:   # Hier wird gegengespüft, ob die eingegebene Zahl auch innerhalb des Spielfeldes liegt
                     if value == 0:
-                        spielbrett[col0][value] = spieler   # hier wird das gewünschte Spieler-Symbol genutzt
-                        col0 = col0 +1
+                        self.spielbrett[self.col0][value] = spieler   # hier wird das gewünschte Spieler-Symbol genutzt
+                        self.col0 = self.col0 +1
                         break
                     if value == 1:
-                        spielbrett[col1][value] = spieler
-                        col1 = col1 +1
+                        self.spielbrett[self.col1][value] = spieler
+                        self.col1 = self.col1 +1
                         break
                     if value == 2:
-                        spielbrett[col2][value] = spieler
-                        col2 = col2 +1
+                        self.spielbrett[self.col2][value] = spieler
+                        self.col2 = self.col2 +1
                         break         
                     if value == 3:
-                        spielbrett[col3][value] = spieler
-                        col3 = col3 +1      
+                        self.spielbrett[self.col3][value] = spieler
+                        self.col3 = self.col3 +1      
                         break   
                     if value == 4:
-                        spielbrett[col4][value] = spieler
-                        col4 = col4 +1    
+                        self.spielbrett[self.col4][value] = spieler
+                        self.col4 = self.col4 +1    
                         break
                     if value == 5:
-                        spielbrett[col5][value] = spieler
-                        col5 = col5 +1    
+                        self.spielbrett[self.col5][value] = spieler
+                        self.col5 = self.col5 +1    
                         break
                     if value == 6:
-                        spielbrett[col6][value] = spieler
-                        col6 = col6 +1    
+                        self.spielbrett[self.col6][value] = spieler
+                        self.col6 = self.col6 +1    
                         break  
                     
             except:
@@ -106,28 +116,28 @@ class VierGewinnt():
         """ horizontal """
         for col in range(self.col_num-3):        # -3 aufgrund der range
             for row in range(self.row_num):
-                if(spielbrett[row][col] == spielbrett[row][col+1] == spielbrett[row][col+2] == spielbrett[row][col+3] != " "):
+                if(self.spielbrett[row][col] == self.spielbrett[row][col+1] == self.spielbrett[row][col+2] == self.spielbrett[row][col+3] != " "):
                     print("Gewonnen")
                     return True
 
         """ vertikal """
         for col in range(self.col_num -3):        
             for row in range(self.row_num -3):
-                if(spielbrett[row][col] == spielbrett[row+1][col] == spielbrett[row+2][col] == spielbrett[row+3][col] != " "):
+                if(self.spielbrett[row][col] == self.spielbrett[row+1][col] == self.spielbrett[row+2][col] == self.spielbrett[row+3][col] != " "):
                     print("Gewonnen")
                     return True
     
         """ diagonal hochzu """
         for col in range(self.col_num -3):       
             for row in range(self.row_num -3):
-                if(spielbrett[row][col] == spielbrett[row+1][col+1] == spielbrett[row+2][col+2] == spielbrett[row+3][col+3] != " "):
+                if(self.spielbrett[row][col] == self.spielbrett[row+1][col+1] == self.spielbrett[row+2][col+2] == self.spielbrett[row+3][col+3] != " "):
                     print("Gewonnen")  
                     return True
 
         """ diagonal herunter """
         for col in range(self.col_num):        # SR
             for row in range(self.row_num -3):
-                if(spielbrett[row][col] == spielbrett[row+1][col-1] == spielbrett[row+2][col-2] == spielbrett[row+3][col-3] != " "):
+                if(self.spielbrett[row][col] == self.spielbrett[row+1][col-1] == self.spielbrett[row+2][col-2] == self.spielbrett[row+3][col-3] != " "):
                     print("Gewonnen") 
                     return True
         return False
@@ -138,23 +148,15 @@ class VierGewinnt():
 # int main()
 # {
 
-""" Settings für Matrix etc. """
-spielbrett = []
+""" Settings """
 row_num = 8
 col_num = 7
 win = False
-
 counter = 0
-col0 = 0
-col1 = 0
-col2 = 0
-col3 = 0
-col4 = 0
-col5 = 0
-col6 = 0
+
 
 """ Instanzen """
-vier_gewinnt = VierGewinnt(spielbrett, row_num, col_num)
+vier_gewinnt = VierGewinnt(row_num, col_num)
 player1 = Spieler("x")
 player2 = Spieler("o")
 
@@ -175,9 +177,8 @@ while win != True:
         ausgeben = vier_gewinnt.Ausgabe() 
         win = vier_gewinnt.CheckWin()
 
+
 """Testbereich"""
-
-
 
 # return 0; 
 # }
