@@ -149,7 +149,7 @@ class VierGewinnt():
                     return True
 
         """ diagonal herunter """
-        for col in range(self.col_num):        # SR
+        for col in range(self.col_num):        
             for row in range(self.row_num -3):
                 if(self.board[row][col] == self.board[row+1][col-1] == self.board[row+2][col-2] == self.board[row+3][col-3] != " "):
                     return True
