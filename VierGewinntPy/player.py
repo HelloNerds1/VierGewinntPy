@@ -1,29 +1,25 @@
-from abc import ABC, abstractmethod
 from VierGewinntPy.VierGewinnt import VierGewinnt
 import random
 
 
-
-class PlayerInterface(ABC): # AbstractBaseClass
-    @abstractmethod
-    def GetTurn(self, board):
-        pass    
-        # mehr macht es nicht
-
-
-class Player(PlayerInterface):
+class Player():   
+    """ In dieseer Klasse wird der Spieler ersetllt """
     
     def __init__(self, icon: str):
+        """ In der Klasse Player wird der Manuelle Spieler ersetllt """
         self.icon = icon 
    
     def PlayerMessage(self):
-        """ Zeig den Spieler im Terminal an, der den nächsten Zug angibt """
+        """ In dieser Methode wird der Spieler über einen String im Terminal angezeigt, der 
+            den nächsten Zug angibt. Diese Methode wird in GetTurn aufgerufen. """
         print(f'Spieler {self.icon} ist dran')
         
     def GetTurn(self, board):
-        """ beschreiben """
-        while True:             # SR
-            self.PlayerMessage()        # SR
+        """ In der Methode GetTurn wird die gwünschte Zeile abgefragt. Falls dieser Input kein Int-Wer ist, 
+            wird erneut nach einer Spalte gefragt. 
+            Board wird erst bei der Vererbung auf AutoPlayer benötigt """
+        while True:             
+            self.PlayerMessage()       
             try:
                 return int(input('Spalte eingeben: ')) # Benutzereingabe in Ganzzahl
             except ValueError:
@@ -31,14 +27,17 @@ class Player(PlayerInterface):
     
 
 
-class AutoPlayer(Player):           # ergibt automatisch alles?
+class AutoPlayer(Player):
+    """ In dieseer Klasse wird der Automatische Gegner für den Einspielermodus ersetllt """           
     
     def __init__(self, icon: str, col_num):
         super().__init__(icon)
         self.col_num = col_num
     
     def GetTurn(self, board):
-        """ beschreiben """
+        """ In der Methode GetTurn() befinden sich zwei Schleifen. 
+        Die erste Schleife kümmert sich darum zu überprüfen, ob der Bot "AutoPlayer" gewinnnen kann.  
+        Die zweite Schleife kümmert sich darum, dass das Gewinnen des manuellen Spielers verhindert wird."""
         # kann Bot gewinnen?
         for i in range(self.col_num):
             vier_gewinnt = VierGewinnt.FromBoard(board)
@@ -60,7 +59,7 @@ class AutoPlayer(Player):           # ergibt automatisch alles?
                     print(f"Autoplayer {self.icon}: verhindernde Spalte {i}")
                     return i
         
-        # wenn ncihts geht, dann random move
+        # wenn nichts geht, dann random move
         random_move = random.randint(0, self.col_num)
         print(f"Autoplayer {self.icon}: Spalte {random_move}")
         return random_move

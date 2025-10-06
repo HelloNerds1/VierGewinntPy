@@ -1,7 +1,9 @@
 class VierGewinnt():
     
     def __init__(self, row_num, col_num):
-        """ beschreiben """
+        """ Init Funktion der VierGewinnt Klasse -
+        - VierGewinnt() verarbeitet die interne Spiellogik, also alles, was nicht vom Spieler/Autospieler 
+          übernommen wird. """
         self.row_num = row_num
         self.col_num = col_num
         # alles was nicht mit übergeben wird:
@@ -13,14 +15,16 @@ class VierGewinnt():
         self.col5 = 0
         self.col6 = 0
         self.board = []
-        self.Spielbrett()
-        self.icons = {"x", "o"} #set
+        self.Spielbrett()       # Methode zur Matrixerstellung aufrufen
+        self.icons = {"x", "o"} # ein Set
     
-    @classmethod #SR
+    @classmethod
     def FromBoard(cls, board: list[list[str]]):
+        """ Diese Methode ist für den AutoSpieler in player.py notwendig.
+        Dabei wird ein neues Vier Gewinnt Objekt von einem Board generiert. """
         row_num = len(board)
         col_num = len(board[0])
-        vier_gewinnt = VierGewinnt(row_num, col_num)
+        vier_gewinnt = VierGewinnt(row_num, col_num)    # Aufruf zu __init__
         for i in range(row_num):
             for j in range(col_num):
                 vier_gewinnt.board[i][j] = board[i][j]
@@ -45,16 +49,17 @@ class VierGewinnt():
     
     def Spielbrett(self):
         """ Diese Funktion erstellt das Spielbrett. Hierbei werden mehrere Listen in eine Liste 
-        zusammengefügt, um eine Matrix zu erstellen. """
+        zusammengefügt, um eine Matrix zu erstellen. Die einzelnen Einträge werden mit Leerzeichen gefüllt """
         for m in range(self.row_num):
             zeile = []
             for n in range(self.col_num):
-                zeile.append(" ")             # Spielbrett mit leeren Einträgen füllen      # av, vllt. Leerzeichen in ASCII?
-            self.board.append(zeile)            # SR
+                zeile.append(" ")             # Spielbrett mit leeren Einträgen füllen
+            self.board.append(zeile)           
 
-    def Ausgabe(self):
+    def Output(self):
         """ In dieser Funktion wird das Spielbrett für die Konsole formatiert ausgegeben. 
-        Dazu wird die Spielbrett Matrix durchgegenagen, wobei für jeden Eintrag ein leeres Feld eingefügt wird. """
+        Dazu wird die Spielbrett-Matrix durchgegenagen, wobei am Ende jedes Eintrages ein 
+        Separierunsstrich eingefügt wird. Ebenso entstehn hier die Zeilenumbrüche der einzelnen Zeilen """
         print("0     1     2     3     4     5     6")    
         for i in range(self.row_num):
             for j in range(self.col_num):
@@ -63,6 +68,11 @@ class VierGewinnt():
             
             
     def SetMove(self, icon, value):
+        """ In der Methode SetMove wird der Input des Spielers verarbietet. 
+        Dabei wird zuerst abgefragt, ob die ausgewählte Spalte auch innerhalb des Spielfeldes liegt. 
+        Daraufhin wird überprüft, ob die gewünschte Spalte schon voll ist. Falls dies nicht der Fall ist, wird
+        der Zähler für die Spalten um eins erweitert, um zu signalisieren, in welche Zeile der nächste Zug gehört.
+        Jede Spalte hat dabei ihren eigenen Zähler. """
         if value < self.col_num:   # Hier wird gegengespüft, ob die eingegebene Zahl auch innerhalb des Spielfeldes liegt
             if value == 0:
                 if self.col0 >= self.row_num:
